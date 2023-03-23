@@ -35,4 +35,9 @@ class QlArchRISCV64(QlArchRISCV):
 
     @cached_property
     def assembler(self) -> Ks:
-        raise QlErrorNotImplemented("Keystone does not yet support riscv")
+        try:
+            from keytone import KS_ARCH_RISCV, KS_MODE_RISCV64, KS_MODE_LITTLE_ENDIAN
+        except ImportError:
+            raise QlErrorNotImplemented("Keystone does not yet support riscv, upgrade to keytone 0.9.3")
+        else:
+            return Ks(KS_ARCH_RISCV, KS_MODE_RISCV64+KS_MODE_LITTLE_ENDIAN)
