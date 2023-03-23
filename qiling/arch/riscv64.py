@@ -7,7 +7,7 @@ from functools import cached_property
 
 from unicorn import Uc, UC_ARCH_RISCV, UC_MODE_RISCV64
 from capstone import Cs
-from keystone import Ks
+from keystone import Ks, KS_ARCH_RISCV, KS_MODE_RISCV64, KS_MODE_LITTLE_ENDIAN
 
 from qiling.arch.riscv_const import *
 from qiling.const import QL_ARCH
@@ -36,8 +36,8 @@ class QlArchRISCV64(QlArchRISCV):
     @cached_property
     def assembler(self) -> Ks:
         try:
-            from keytone import KS_ARCH_RISCV, KS_MODE_RISCV64, KS_MODE_LITTLE_ENDIAN
+            from keystone import KS_ARCH_RISCV, KS_MODE_RISCV64, KS_MODE_LITTLE_ENDIAN
         except ImportError:
-            raise QlErrorNotImplemented("Keystone does not yet support riscv, upgrade to keytone 0.9.3")
+            raise QlErrorNotImplemented("Keystone does not yet support riscv, upgrade to keystone 0.9.3")
         else:
             return Ks(KS_ARCH_RISCV, KS_MODE_RISCV64+KS_MODE_LITTLE_ENDIAN)
